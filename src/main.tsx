@@ -11,7 +11,6 @@ import App from "./App.tsx";
 import RealComponent from "./Components/RealComponent.tsx";
 import React from 'react';
 import RedirectComponent from "./Components/RedirectComponent.tsx";
-import SearchNavBar from "./Components/SearchNavBar.tsx";
 import {store} from "./store";
 
 const router = createBrowserRouter([
@@ -26,7 +25,6 @@ const router = createBrowserRouter([
     {
         path: '/components/:componentid',
         element: <>
-            <SearchNavBar path={[]} filter={undefined} changeFilter={undefined} executeSearch={undefined}/>
             <RealComponent/>
         </>,
     },
