@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "generate-api": "node scripts/generate-api.mjs",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "dev": "vite",
@@ -14,11 +15,13 @@
   },
   "dependencies": {
     "@react-buddy/ide-toolbox": "^2.4.0",
+    "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.1",
     "bootstrap": "^5.3.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",
+    "react-redux": "^9.0.3",
     "react-router-dom": "^6.18.0"
   },
   "devDependencies": {
@@ -34,6 +37,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "gh-pages": "^6.1.0",
+    "swagger-typescript-api": "^13.0.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   }
