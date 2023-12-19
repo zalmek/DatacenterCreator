@@ -12,6 +12,8 @@ import RealComponent from "./Components/RealComponent.tsx";
 import React from 'react';
 import RedirectComponent from "./Components/RedirectComponent.tsx";
 import {store} from "./store";
+import {Authorization} from "./Components/Authorization.tsx";
+import {Registration} from "./Components/Registration.tsx";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
     {
         path: '/?filterText=:filterText',
         element: <App/>
+    },
+    {
+        path: '/auth',
+        element: <Authorization></Authorization>
+    },
+    {
+        path: '/register',
+        element: <Registration></Registration>
     }
 ])
 

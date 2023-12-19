@@ -1,13 +1,12 @@
 import './App.css'
 import axios from "axios";
-import SearchNavBar from "./Components/SearchNavBar.tsx";
 import ComponentsGrid from "./Components/ComponentsGrid.tsx";
 import {SetStateAction, useEffect, useState} from "react";
 import {useNavigate, useParams} from 'react-router-dom';
 import Breadcrumbs from "./Components/Breadcrumbs/Breadcrumbs.tsx";
 
 
-const BASE_URL = "api/components/"
+export const BASE_URL = "api/components/"
 
 function App() {
     const [path, setPath] = useState(["Главная"])
@@ -68,9 +67,9 @@ function App() {
 
   return (
       <>
-          <SearchNavBar path={path} filter={[Filter, setFilter]} changeFilter={changeFilter} executeSearch={executeSearch}/>
+          <ComponentsGrid components={Components} goToInfoPage={goToInfoPage} path={path} Filter={[Filter, setFilter]} changeFilter={changeFilter}
+                          executeSearch={executeSearch}/>
           <Breadcrumbs></Breadcrumbs>
-          <ComponentsGrid components={Components} goToInfoPage={goToInfoPage} />
       </>
   )
 }

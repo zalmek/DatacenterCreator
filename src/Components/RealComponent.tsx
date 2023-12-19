@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import {CardText, CardTitle, Image} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 // @ts-ignore
