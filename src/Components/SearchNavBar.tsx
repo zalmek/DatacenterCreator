@@ -15,13 +15,6 @@ function SearchNavBar({path, filter, executeSearch, changeFilter}) {
     if (filter == undefined){
         return (
             <Navbar className="bg-body-tertiary justify-content-between">
-                <h3>
-                    <a href={"/"}>Главная</a> /
-                    {path.map((url: string) => (
-                        <> {url}
-                        </>
-                    ))}
-                </h3>
             </Navbar>
             )
     }
@@ -41,13 +34,6 @@ function SearchNavBar({path, filter, executeSearch, changeFilter}) {
                 />
                 <Button variant="outline-success" onClick={() => executeSearch(filter[0])}>Поиск</Button>
             </Form>
-            <h3>
-                <a href={"/"}>Главная</a> /
-                {path.map((url: string) => (
-                    <a href={url}>
-                    </a>
-                ))}
-            </h3>
         </Navbar>
     );
 }

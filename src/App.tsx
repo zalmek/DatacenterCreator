@@ -4,6 +4,7 @@ import SearchNavBar from "./Components/SearchNavBar.tsx";
 import ComponentsGrid from "./Components/ComponentsGrid.tsx";
 import {SetStateAction, useEffect, useState} from "react";
 import {useNavigate, useParams} from 'react-router-dom';
+import Breadcrumbs from "./Components/Breadcrumbs/Breadcrumbs.tsx";
 
 
 const BASE_URL = "api/components/"
@@ -68,6 +69,7 @@ function App() {
   return (
       <>
           <SearchNavBar path={path} filter={[Filter, setFilter]} changeFilter={changeFilter} executeSearch={executeSearch}/>
+          <Breadcrumbs></Breadcrumbs>
           <ComponentsGrid components={Components} goToInfoPage={goToInfoPage} />
       </>
   )

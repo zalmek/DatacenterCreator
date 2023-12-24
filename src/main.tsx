@@ -23,6 +23,10 @@ const router = createBrowserRouter([
         element: <RedirectComponent></RedirectComponent>
     },
     {
+        path: 'components',
+        element: <RedirectComponent></RedirectComponent>
+    },
+    {
         path: '/components/:componentid',
         element: <>
             <RealComponent/>
