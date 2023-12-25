@@ -96,7 +96,7 @@ function NavBar() {
                         navigate("/")
                     }
                 }>
-                    Logout
+                    Выйти
                 </button>
             </div>
         );
