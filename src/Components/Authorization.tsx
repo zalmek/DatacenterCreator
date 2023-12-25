@@ -2,12 +2,17 @@ import {useState} from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import {useDispatch} from "react-redux";
+import {setAuth, setCurrentRequestId} from "../store/data/slice.ts";
+import {useNavigate} from "react-router-dom";
 
 const BASE_URL = "api/login"
 
 export function Authorization() {
     const [login, setLogin] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     return (
         <>
             <Form className="d-flex">
@@ -33,7 +38,26 @@ export function Authorization() {
             <Button variant="outline-success" onClick={() => axios.post(BASE_URL, {
                 email: login,
                 password: password,
-            }).then(r => console.log(r))}>Авторизоваться</Button>
+            }).then(result => {
+                console.log(result)
+                dispatch(setAuth({
+                        email: login,
+                        password: password,
+                        is_staff: result.data.is_staff,
+                    }
+                ))
+                axios.get("api/components/").then((result) => {
+                    console.log(result)
+                        if (result.data.creation !== null) {
+                            // @ts-ignore
+                            dispatch(setCurrentRequestId({
+                                currentRequestId: result.data.creation
+                            }))
+                        }
+                    }
+                )
+                navigate("/")
+            })}>Авторизоваться</Button>
         </>
     );
 }

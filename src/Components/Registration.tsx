@@ -2,12 +2,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {useState} from "react";
 import axios from "axios";
+import {setAuth} from "../store/data/slice.ts";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const BASE_URL = "api/user/"
 
 export function Registration() {
     const [login, setLogin] = useState("")
     const [password, setPassword] = useState("")
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     return (
         <>
             <Form className="d-flex">
@@ -33,7 +38,16 @@ export function Registration() {
             <Button variant="outline-success" onClick={() => axios.post(BASE_URL, {
                 email: login,
                 password: password,
-            }).then(r => console.log(r))}>Авторизоваться</Button>
+            }).then(result => {
+                console.log(result)
+                dispatch(setAuth({
+                        email: login,
+                        password: password,
+                        is_staff: result.data.is_staff,
+                    }
+                ))
+                navigate("/")
+            })}>Зарегистрироваться</Button>
         </>
     );
 }
