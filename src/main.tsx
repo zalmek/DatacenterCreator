@@ -76,6 +76,14 @@ const router = createBrowserRouter([
             </>
     },
     {
+        path: '/componentForm/:componentid',
+        element:
+            <>
+                <NavBar></NavBar>
+                <ComponentForm></ComponentForm>
+            </>
+    },
+    {
         path: '/components/:componentid',
         element:
             <>

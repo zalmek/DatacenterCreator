@@ -41,6 +41,8 @@ export function CreationHistory() {
                 return 3;
             case "Сформирована":
                 return 1;
+            case "Одобрена":
+                return 1;
             case "Удалена":
                 return 5;
             case "Завершена":

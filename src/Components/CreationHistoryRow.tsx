@@ -1,6 +1,7 @@
 import {useAuth} from "../store/data/slice.ts";
 import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 interface CreationHistoryRowProps {
     creation: ({
@@ -22,10 +23,12 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
                 return 'bg-danger-subtle';
             case 1:
                 return 'bg-info-subtle';
+            case 2:
+                return 'bg-success-subtle';
             case 5:
                 return 'bg-warning-subtle';
             case 4:
-                return 'bg-success-subtle';
+                return 'bg-info-subtle';
 
             default:
                 return 'bg-dark';
@@ -38,6 +41,8 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
                 return "Черновик";
             case 3:
                 return "Отклонена";
+            case 2:
+                return "Одобрена";
             case 1:
                 return 'Сформирована';
             case 5:
@@ -77,13 +82,17 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
                     Открыть
                 </Button>
             </td>
-            {auth?.is_staff ? <td className={bgColor}><Button className="btn btn-primary" onClick={() => {
-                navigate("/creation/" + creation.creationid)
+            {auth?.is_staff ? <td className={bgColor}><Button disabled={creation.creationstatus!=1} className="btn btn-success" onClick={() => {
+                axios.post("api/datacentercreations/" + creation.creationid + "/moderator_approvement").then(result => {
+                    console.log(result)
+                })
             }}>
                 Принять
             </Button></td> : null}
-            {auth?.is_staff ? <td className={bgColor}><Button className="btn btn-primary" onClick={() => {
-                navigate("/creation/" + creation.creationid)
+            {auth?.is_staff ? <td className={bgColor}><Button disabled={creation.creationstatus!=1} className="btn btn-danger" onClick={() => {
+                axios.post("api/datacentercreations/" + creation.creationid + "/moderator_rejection").then(result => {
+                    console.log(result)
+                })
             }}>
                 Отклонить
             </Button></td> : null}

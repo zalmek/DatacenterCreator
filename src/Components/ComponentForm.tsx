@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {Container, FormText} from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
+import {Container, FormCheck, FormText, Image} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {useAuth} from "../store/data/slice.ts";
 import axios from "axios";
-
+import {useParams} from "react-router-dom";
 export function ComponentForm() {
     const [file, setFile] = useState<string>();
     const [imagePreview, setImagePreview] = useState<any>("");
@@ -12,9 +12,46 @@ export function ComponentForm() {
     const [name, setName] = useState<string>();
     const [size, setSize] = useState<string>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [component, setComponent] = useState()
     const [componentname, setComponentname] = useState()
     const [componentprice, setComponentprice] = useState()
     const [componentdescription, setComponentdescription] = useState()
+    const [componentstatus, setComponentstatus] = useState()
+    const [componentimage, setComponentimage] = useState()
+
+    const params = useParams()
+
+    if (params.componentid != undefined){
+        useEffect(() => {
+            axios.get("/api/components/"+params.componentid).then(
+                (result) => {
+                    console.log(result)
+                    setComponent(result.data)
+                    setComponentname(result.data.componentname)
+                    setComponentimage(result.data.componentimage)
+                    setComponentdescription(result.data.componentdescription)
+                    setComponentprice(result.data.componentprice)
+                    setComponentstatus(result.data.componentstatus)
+                }
+            )
+        }, []);
+    }
+
+    function numberToStatus(status: number) {
+        if (status==1){
+            return true
+        }
+        else
+            return false
+    }
+
+    function statusToNumber(status: boolean) {
+        if (status==true){
+            return 1
+        }
+        else
+            return 0
+    }
 
 
     const onChange = (e: any) => {
@@ -42,15 +79,30 @@ export function ComponentForm() {
         setTimeout(() => {
             setIsLoading(false)
         }, 2000)
-        axios.post("api/components/",
-            {
-                componentname: componentname,
-                componentprice: componentprice,
-                componentdescription: componentdescription,
-                componentimage: base64
-            }).then((result) => {
+        if (params.componentid == undefined) {
+            axios.post("/api/components/",
+                {
+                    componentname: componentname,
+                    componentprice: componentprice,
+                    componentdescription: componentdescription,
+                    componentimage: base64,
+                    componentstatus: componentstatus
+                }).then((result) => {
                 console.log(result)
-        })
+            })
+        }
+        else {
+            axios.put("/api/components/"+params.componentid,
+                {
+                    componentname: componentname,
+                    componentprice: componentprice,
+                    componentdescription: componentdescription,
+                    componentimage: base64,
+                    componentstatus: componentstatus
+                }).then((result) => {
+                console.log(result)
+            })
+        }
 
     }
 
@@ -86,15 +138,15 @@ export function ComponentForm() {
     return (
         <>
             <div className="mb-3">
-                <input type="text" className="form-control" placeholder="Название компонента"
+                <input value={componentname} type="text" className="form-control" placeholder="Название компонента"
                        onChange={(event) => setComponentname(event.target.value)}/>
             </div>
             <div className="mb-3">
-                <input type="text" className="form-control" placeholder="Стоимость"
+                <input value={componentprice} type="text" className="form-control" placeholder="Стоимость"
                        onChange={(event) => setComponentprice(event.target.value)}/>
             </div>
             <div className="mb-3">
-                <input type="textarea" className="form-control" placeholder="Описание"
+                <input value={componentdescription} type="textarea" className="form-control" placeholder="Описание"
                        onChange={(event) => setComponentdescription(event.target.value)}/>
             </div>
             <Container>
@@ -122,6 +174,9 @@ export function ComponentForm() {
                     <Button className={"btn-success"} type="submit"> Submit
                     </Button>
                 </form>
+                Активный
+                <FormCheck checked={numberToStatus(componentstatus)} onClick={(event) => setComponentstatus(statusToNumber(event.target.value))}></FormCheck>
+                <Image src={componentimage}></Image>
             </Container>
         </>
     )
