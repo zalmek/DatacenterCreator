@@ -12,11 +12,16 @@ import RealComponent from "./Components/RealComponent.tsx";
 import React from 'react';
 import RedirectComponent from "./Components/RedirectComponent.tsx";
 import {store} from "./store";
+import NavBar from "./Components/NavBar.tsx";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <App/>
+        element:
+            <>
+                <NavBar></NavBar>
+                <App/>
+            </>
     },
     {
         path: 'DatacenterCreator',
@@ -29,12 +34,19 @@ const router = createBrowserRouter([
     {
         path: '/components/:componentid',
         element: <>
-            <RealComponent/>
+            <>
+                <NavBar></NavBar>
+                <RealComponent/>
+            </>
         </>,
     },
     {
         path: '/?filterText=:filterText',
-        element: <App/>
+        element:
+            <>
+                <NavBar></NavBar>
+                <App/>
+            </>
     }
 ])
 
