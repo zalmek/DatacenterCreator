@@ -12,7 +12,7 @@ import img2 from "assets/72daa4a1199c44c41105cadc0fc6ab447b24a918f15c6e32cbf0134
 import img3 from "assets/879dd5ff8210e347cffc72bdd14e492278c55e5d0eceac511fac9abbe75ebc78.jpg";
 import NavBar from "./NavBar.tsx";
 import Breadcrumbs from "./Breadcrumbs/Breadcrumbs.tsx";
-import {useAuth} from "../store/data/slice.ts";
+import {setCurrentRequestId, useAuth} from "../store/data/slice.ts";
 import Button from "react-bootstrap/Button";
 // @ts-ignore
 const BASE_URL = "/api/components/"
@@ -48,7 +48,15 @@ function RealComponent() {
                     {component.componentprice}р
                 </CardText>
                 {auth?.is_staff ? (<Button onClick={() => navigate("/componentForm/"+component.componentid)}> Редактировать
-                </Button>) : <></>
+                </Button>) :  <Button variant="outline-success" onClick={() => {
+                    axios.post("api/components/" + component.componentid + "/post_to_creation").then((result) => {
+                        console.log(result)
+                        // @ts-ignore
+                        dispatch(setCurrentRequestId({
+                            currentRequestId: result.data.creation
+                        }))
+                    })
+                }}>Добавить в корзину</Button>
                 }
             </Col>
         </>;
