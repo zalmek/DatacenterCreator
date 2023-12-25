@@ -171,7 +171,7 @@ export function ComponentForm() {
                         }
                     </Card>
                     <Button className={"btn-warning"} type="button" onClick={remove}>Очистить поля</Button>
-                    <Button className={"btn-success"} type="submit"> Submit
+                    <Button className={"btn-success"} type="submit"> Сохранить
                     </Button>
                 </form>
                 Активный

@@ -62,7 +62,7 @@ function ComponentsGrid({components, goToInfoPage, Filter, changeFilter, execute
                             </Card.Text>
                             <Button variant="outline-info"
                                     onClick={() => goToInfoPage(component.componentid.toString())}>Подробнее</Button>{' '}
-                            <Button variant="outline-success" onClick={() => {
+                            <Button variant="success" disabled={auth==null} onClick={() => {
                                 axios.post("api/components/" + component.componentid + "/post_to_creation").then((result) => {
                                     console.log(result)
                                     // @ts-ignore
