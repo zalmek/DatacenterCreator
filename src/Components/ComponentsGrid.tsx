@@ -11,6 +11,7 @@ import img3 from "./879dd5ff8210e347cffc72bdd14e492278c55e5d0eceac511fac9abbe75e
 // @ts-ignore
 import * as url from "url";
 import {useParams} from "react-router-dom";
+import SearchForm from "./SearchNavBar.tsx";
 
 interface ComponentsGridProps {
     components: ({
@@ -21,10 +22,14 @@ interface ComponentsGridProps {
         componentimage: string;
         componentstatus: number
     })[],
-    goToInfoPage: (componentId: string) => void
+    goToInfoPage: (componentId: string) => void,
+    path: string[],
+    Filter: any[],
+    changeFilter: (event: { target: { value: React.SetStateAction<string> } }) => void,
+    executeSearch: (filter: string) => void
 }
 
-function ComponentsGrid({components, goToInfoPage }: ComponentsGridProps) {
+function ComponentsGrid({ components, goToInfoPage, Filter, changeFilter, executeSearch }: ComponentsGridProps) {
     const params = useParams()
     let filter = ""
     if (params.filterText!=undefined){
@@ -33,6 +38,9 @@ function ComponentsGrid({components, goToInfoPage }: ComponentsGridProps) {
     components = components.filter((component) => component.componentname.includes(filter))
     console.log(components)
     return (
+        <>
+            <SearchForm filter={[Filter[0], Filter[1]]} changeFilter={changeFilter}
+                        executeSearch={executeSearch}/>
         <Row xs={1} md={1} lg={2} xl={3} xxl={3}  className="g-4">
             {components.map((component) =>(
                 <Col key={component.componentid}>
@@ -51,6 +59,7 @@ function ComponentsGrid({components, goToInfoPage }: ComponentsGridProps) {
                 </Col>
             ))}
         </Row>
+        </>
     );
 }
 

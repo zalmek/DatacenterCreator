@@ -30,7 +30,6 @@ function RealComponent() {
     },[params.componentid])
     return (
         <Col>
-            <SearchNavBar path={[component.componentname]} filter={undefined} changeFilter={undefined} executeSearch={undefined}/>
             <Breadcrumbs></Breadcrumbs>
             <Image src={(`${component.componentimage}`)} width={400} height={400}>
             </Image>
