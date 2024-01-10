@@ -154,7 +154,7 @@ export function Creation() {
                                 <Button variant="outline-info"
                                         onClick={() => navigate(`/components/${component.componentid.toString()}`)}>Подробнее</Button>{' '}
                                 <Row>
-                                    <Button variant="success" disabled={creation.creationstatus !== 0}
+                                    <Button variant="success" disabled={creation.creationstatus !== 0 || auth?.is_staff!==null}
                                             onClick={() => {
                                                 axios.put("/api/creationcomponents/", {
                                                     "componentsnumber": (number_of_components[index] + 1),
@@ -169,7 +169,7 @@ export function Creation() {
                                                     changeRefresh((prevState) => !prevState)
                                                 })
                                             }}>Добавить ещё 1</Button>{' '}
-                                    <Button variant="warning" disabled={creation.creationstatus !== 0}
+                                    <Button variant="warning" disabled={creation.creationstatus !== 0 || auth?.is_staff!==null}
                                             onClick={() => {
                                                 axios.put("/api/creationcomponents/", {
                                                     "componentsnumber": (number_of_components[index] - 1),
