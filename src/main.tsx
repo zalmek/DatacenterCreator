@@ -18,6 +18,7 @@ import NavBar from "./Components/NavBar.tsx";
 import {Creation} from "./Components/Creation.tsx";
 import {CreationHistory} from "./Components/CreationHistory.tsx";
 import {ComponentForm} from "./Components/ComponentForm.tsx";
+import Breadcrumbs from "./Components/Breadcrumbs/Breadcrumbs.tsx";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
         element:
             <>
                 <NavBar></NavBar>
+                <Breadcrumbs></Breadcrumbs>
                 <App/>
             </>
     },
@@ -33,6 +35,7 @@ const router = createBrowserRouter([
         element:
             <>
                 <NavBar></NavBar>
+                <Breadcrumbs></Breadcrumbs>
                 <Creation/>
             </>
     },
@@ -41,6 +44,7 @@ const router = createBrowserRouter([
         element:
             <>
                 <NavBar></NavBar>
+                <Breadcrumbs></Breadcrumbs>
                 <Creation/>
             </>
     },
@@ -49,6 +53,7 @@ const router = createBrowserRouter([
         element:
             <>
                 <NavBar></NavBar>
+                <Breadcrumbs></Breadcrumbs>
                 <CreationHistory/>
             </>
     },
@@ -72,6 +77,7 @@ const router = createBrowserRouter([
         element:
             <>
                 <NavBar></NavBar>
+                <Breadcrumbs></Breadcrumbs>
                 <ComponentForm></ComponentForm>
             </>
     },
@@ -80,6 +86,7 @@ const router = createBrowserRouter([
         element:
             <>
                 <NavBar></NavBar>
+                <Breadcrumbs></Breadcrumbs>
                 <ComponentForm></ComponentForm>
             </>
     },
@@ -96,6 +103,7 @@ const router = createBrowserRouter([
         element:
             <>
                 <NavBar/>
+                <Breadcrumbs></Breadcrumbs>
                 <App/>
             </>
     }
@@ -105,6 +113,7 @@ const router = createBrowserRouter([
         element:
             <>
                 <NavBar></NavBar>
+                <Breadcrumbs></Breadcrumbs>
                 <Authorization></Authorization>
             </>
     }
@@ -114,6 +123,7 @@ const router = createBrowserRouter([
         element:
             <>
                 <NavBar></NavBar>
+                <Breadcrumbs></Breadcrumbs>
                 <Registration></Registration>
             </>
     }

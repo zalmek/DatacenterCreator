@@ -1,18 +1,22 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useDispatch} from "react-redux";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {setCurrentRequestId, useAuth} from "../store/data/slice.ts";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
+import {LoadingIndicator} from "./LoadingIndicator.tsx";
 
 export function Creation() {
     const [components, setComponents] = useState()
     const [creation, setCreation] = useState()
     const [number_of_components, setNumber] = useState()
     const [refresh, changeRefresh] = useState(false)
+    const [forbidden, setForbidden] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const params = useParams()
@@ -30,7 +34,9 @@ export function Creation() {
                         dispatch(setCurrentRequestId(null))
                         navigate("/")
                     }
-                })
+                }).catch(error => {
+                setForbidden(true)
+            })
         }, [refresh])
     }
     if (!auth?.is_staff && params.creationid == undefined)
@@ -50,7 +56,13 @@ export function Creation() {
         }, [refresh]);
 
     if (components == undefined) {
-        return <div>ДОСТУП ЗАПРЕЩЁН</div>
+        if (forbidden)
+            return <div>ДОСТУП ЗАПРЕЩЁН</div>
+        else
+            return <LoadingIndicator></LoadingIndicator>
+    }
+    if (components != undefined && params.creationid == undefined) {
+        navigate("/creation/" + creation.creationid)
     }
 
     const status = () => {
@@ -61,18 +73,66 @@ export function Creation() {
             return (<h4>Статус: Сформирована</h4>)
         }
         if (creation.creationstatus == 2) {
-            return (<h4>Статус: Подтверждена</h4>)
+            return (<h4>Статус: Завершена</h4>)
         }
         if (creation.creationstatus == 3) {
             return (<h4>Статус: Отклонена</h4>)
         }
         if (creation.creationstatus == 4) {
-            return (<h4>Статус: Завершена</h4>)
+            return (<h4>Статус: Завершена(удалённый статус)</h4>)
         }
         if (creation.creationstatus == 5) {
             return (<h4>Статус: Удалена</h4>)
         }
     }
+    const buttons =
+        auth?.is_staff ? (
+            <div>
+                <Button variant={"success"} disabled={creation.creationstatus != 1} onClick={
+                    () => {
+                        axios.post("/api/datacentercreations/" + creation.creationid + "/moderator_approvement").then(result => {
+                            console.log(result)
+                        })
+                        changeRefresh((prevState) => !prevState)
+                    }
+                }>
+                    Завершить
+                </Button>
+                <Button variant={"danger"} disabled={creation.creationstatus != 1} onClick={
+                    () => {
+                        axios.post("/api/datacentercreations/" + creation.creationid + "/moderator_rejection").then(result => {
+                            console.log(result)
+                        })
+                        changeRefresh((prevState) => !prevState)
+                    }
+                }>
+                    Отклонить
+                </Button>
+            </div>
+        ) : (
+            <>
+                <Button disabled={creation.creationstatus != 0} onClick={
+                    () => {
+                        axios.post("/api/datacentercreations/" + creation.creationid + "/user_publish").then(result => {
+                            console.log(result)
+                        })
+                        changeRefresh((prevState) => !prevState)
+                    }
+                }>
+                    Сформировать
+                </Button>
+                <Button variant={"danger"} disabled={creation.creationstatus != 0} onClick={
+                    () => {
+                        axios.post("/api/datacentercreations/" + creation.creationid + "/user_deletion").then(result => {
+                            console.log(result)
+                        })
+                        changeRefresh((prevState) => !prevState)
+                    }
+                }>
+                    Удалить
+                </Button>
+            </>
+        )
 
     return (
         <>
@@ -96,7 +156,7 @@ export function Creation() {
                                 <Row>
                                     <Button variant="success" disabled={creation.creationstatus !== 0}
                                             onClick={() => {
-                                                axios.put("api/creationcomponents/", {
+                                                axios.put("/api/creationcomponents/", {
                                                     "componentsnumber": (number_of_components[index] + 1),
                                                     "component_id": component.componentid,
                                                     "creation_id": creation.creationid
@@ -111,7 +171,7 @@ export function Creation() {
                                             }}>Добавить ещё 1</Button>{' '}
                                     <Button variant="warning" disabled={creation.creationstatus !== 0}
                                             onClick={() => {
-                                                axios.put("api/creationcomponents/", {
+                                                axios.put("/api/creationcomponents/", {
                                                     "componentsnumber": (number_of_components[index] - 1),
                                                     "component_id": component.componentid,
                                                     "creation_id": creation.creationid
@@ -130,26 +190,7 @@ export function Creation() {
                     </Col>)}
                 </Row>
             </Col>
-            <Button disabled={creation.creationstatus != 0} onClick={
-                () => {
-                    axios.post("api/datacentercreations/" + creation.creationid + "/user_publish").then(result => {
-                        console.log(result)
-                    })
-                    changeRefresh((prevState) => !prevState)
-                }
-            }>
-                Сформировать
-            </Button>
-            <Button variant={"danger"} disabled={creation.creationstatus != 0} onClick={
-                () => {
-                    axios.post("api/datacentercreations/" + creation.creationid + "/user_deletion").then(result => {
-                        console.log(result)
-                    })
-                    changeRefresh((prevState) => !prevState)
-                }
-            }>
-                Удалить
-            </Button>
+            {buttons}
         </>
     );
 }

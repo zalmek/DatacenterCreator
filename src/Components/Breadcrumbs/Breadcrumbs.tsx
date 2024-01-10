@@ -5,22 +5,32 @@ export default function Breadcrumbs() {
     let currentLink = ''
     let translation = {
         "components": "Компоненты",
+        "creation": "Заявка",
+        "componentForm": "Компонент",
+        " ": "Главная",
+        "creationHistory": "Заявки",
+        "auth": "Авторизация",
+        "register": "Регистрация",
     }
-    const crumbs = location.pathname.split('/')
+    let array = location.pathname.split('/')
+    array.unshift(" ")
+    const crumbs = array
         .filter(crumb => crumb !== '')
         .map(((crumb, index) => {
-            currentLink += `/${crumb}`
-            if (index == location.pathname.split('/')
+            currentLink = `/${crumb}`
+            console.log(currentLink)
+            console.log(crumb)
+            if (index == array
                 .filter(crumb => crumb !== '').length - 1) {
                 return (
-                    <div className="crumb" key={crumb}>
-                        <h5>{crumb}</h5>
+                    <div className="crumb" key={translation[crumb] ? translation[crumb] : crumb}>
+                        <h5>{translation[crumb] ? translation[crumb] : crumb}</h5>
                     </div>
                 )
             }
             else {
                 return (
-                    <div className="crumb" key={crumb}>
+                    <div className="crumb" key={translation[crumb]}>
                         <Link to={currentLink}>{translation[crumb]}</Link> /
                     </div>
                 )

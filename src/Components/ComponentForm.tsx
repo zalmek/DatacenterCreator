@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {useAuth} from "../store/data/slice.ts";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 export function ComponentForm() {
     const [file, setFile] = useState<string>();
     const [imagePreview, setImagePreview] = useState<any>("");
@@ -19,7 +19,9 @@ export function ComponentForm() {
     const [componentstatus, setComponentstatus] = useState()
     const [componentimage, setComponentimage] = useState()
 
+    const navigate = useNavigate()
     const params = useParams()
+    const auth = useAuth()
 
     if (params.componentid != undefined){
         useEffect(() => {
@@ -103,6 +105,7 @@ export function ComponentForm() {
                 console.log(result)
             })
         }
+        navigate("/")
 
     }
 
@@ -130,7 +133,6 @@ export function ComponentForm() {
         setName("")
         setSize("")
     }
-    const auth = useAuth()
 
     if (!auth?.is_staff){
         return <h1>ДОСТУП ЗАПРЕЩЁН! ПОПЫТКА ДОСТУПА К СЛУЖЕБНОМУ РЕСУРСУ</h1>
@@ -174,8 +176,8 @@ export function ComponentForm() {
                     <Button className={"btn-success"} type="submit"> Сохранить
                     </Button>
                 </form>
-                Активный
-                <FormCheck checked={numberToStatus(componentstatus)} onClick={(event) => setComponentstatus(statusToNumber(event.target.value))}></FormCheck>
+                Доступен для использования
+                <FormCheck checked={numberToStatus(componentstatus)} onClick={(event) => setComponentstatus(statusToNumber(event.target.checked))}></FormCheck>
                 <Image src={componentimage}></Image>
             </Container>
         </>

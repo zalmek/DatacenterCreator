@@ -1,7 +1,7 @@
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.css';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {reset, useAuth, useCurrentRequestId} from "../store/data/slice.ts";
 import {useDispatch} from "react-redux";
 import axios from "axios";
@@ -37,47 +37,33 @@ function NavBar() {
     const dispatch = useDispatch()
     const requestId = useCurrentRequestId()
     const requestView =
-        requestId === null ? (
-            <div>
-                <Button onClick={goToCreationPage} disabled={true}>
-                    Заявка
-                </Button>
-            </div>
+        requestId === null || auth?.is_staff ? (
+            <></>
         ) : (
             <div>
-                <Button onClick={goToCreationPage}>
-                    Заявка
-                </Button>
+                <Link className="nav-link text-dark" to={"/creation"}>Текущая заявка</Link>
             </div>
-        )
+)
     const displayForm =
         auth?.is_staff ? (
             <div>
-                <Button onClick={goToComponentFormPage}>
-                    Новый компонент
-                </Button>
+            <Link className="nav-link text-dark" to={"/componentForm"}>Новый компонент</Link>
             </div>
         ) : (
             <></>
         )
     const requestHistory =
         requestId === null && !auth?.is_staff ? (
-            <div>
-                <Button onClick={goToCreationHistoryPage} disabled={true}>
-                    История заявок
-                </Button>
-            </div>
+            <></>
         ) : (
             <div>
-                <Button onClick={goToCreationHistoryPage}>
-                    История заявок
-                </Button>
+                <Link className="nav-link text-dark" to={"/creationHistory"}>Все заявки</Link>
             </div>
         )
     const loginDisplay =
         auth === null ? (
             <div>
-                <Button onClick={goToAuthPage}>
+            <Button onClick={goToAuthPage}>
                 Войти
                 </Button>{' '}
                 <Button onClick={goToRegistrationPage}>
@@ -102,9 +88,7 @@ function NavBar() {
         );
     return (
         <Navbar className="bg-body-tertiary justify-content-between" style={{width: 1000}}>
-            <Button onClick={goToMainPage}>
-                Компоненты
-            </Button>
+            <Link className="nav-link text-dark" to={"/"}>Компоненты</Link>
             {requestView}
             {displayForm}
             {requestHistory}

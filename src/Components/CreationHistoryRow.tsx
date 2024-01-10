@@ -10,7 +10,8 @@ interface CreationHistoryRowProps {
         creationformdate: string | null,
         creationcompleteddate: string | null,
         creationstatus: number,
-        user: string
+        useremail: string,
+        moderatoremail: string
     }),
 }
 
@@ -42,13 +43,13 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
             case 3:
                 return "Отклонена";
             case 2:
-                return "Одобрена";
+                return "Завершена";
             case 1:
                 return 'Сформирована';
             case 5:
                 return 'Удалена';
             case 4:
-                return 'Завершена';
+                return 'Завершена(удалённый статус)';
 
             default:
                 return 'Что-то пошло не так';
@@ -68,7 +69,9 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
             <th className={bgColor} scope="row">
                 <span className="badge text-bg-dark">{creation.creationid}</span>
             </th>
-            {auth?.is_staff ? <td className={bgColor}>{creation.user}</td> : null}
+            {auth?.is_staff ? <td className={bgColor}>{creation.useremail}</td> : null}
+            <td className={bgColor}>{creation.moderatoremail ? creation.moderatoremail :
+                <span className="text-body-secondary">—</span>}</td>
             <td className={bgColor}>{creationStatusToString(creation.creationstatus)}</td>
             <td className={bgColor}>{formatDateString(creation.creationdate!)}</td>
             <td className={bgColor}>{creation.creationformdate ? formatDateString(creation.creationformdate) :
@@ -82,20 +85,24 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
                     Открыть
                 </Button>
             </td>
-            {auth?.is_staff ? <td className={bgColor}><Button disabled={creation.creationstatus!=1} className="btn btn-success" onClick={() => {
-                axios.post("api/datacentercreations/" + creation.creationid + "/moderator_approvement").then(result => {
-                    console.log(result)
-                })
-            }}>
-                Принять
-            </Button></td> : null}
-            {auth?.is_staff ? <td className={bgColor}><Button disabled={creation.creationstatus!=1} className="btn btn-danger" onClick={() => {
-                axios.post("api/datacentercreations/" + creation.creationid + "/moderator_rejection").then(result => {
-                    console.log(result)
-                })
-            }}>
-                Отклонить
-            </Button></td> : null}
+            {auth?.is_staff ?
+                <td className={bgColor}><Button disabled={creation.creationstatus != 1} className="btn btn-success"
+                                                onClick={() => {
+                                                    axios.post("api/datacentercreations/" + creation.creationid + "/moderator_approvement").then(result => {
+                                                        console.log(result)
+                                                    })
+                                                }}>
+                    Завершить
+                </Button></td> : null}
+            {auth?.is_staff ?
+                <td className={bgColor}><Button disabled={creation.creationstatus != 1} className="btn btn-danger"
+                                                onClick={() => {
+                                                    axios.post("api/datacentercreations/" + creation.creationid + "/moderator_rejection").then(result => {
+                                                        console.log(result)
+                                                    })
+                                                }}>
+                    Отклонить
+                </Button></td> : null}
         </tr>
     )
 }

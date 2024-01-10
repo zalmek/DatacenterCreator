@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../store/data/slice.ts";
 import Card from "react-bootstrap/Card";
+import {LoadingIndicator} from "./LoadingIndicator.tsx";
 
 
 export function CreationHistory() {
@@ -41,11 +42,11 @@ export function CreationHistory() {
                 return 3;
             case "Сформирована":
                 return 1;
-            case "Одобрена":
-                return 1;
+            case "Завершена":
+                return 2;
             case "Удалена":
                 return 5;
-            case "Завершена":
+            case "Одобрена(удалённый статус)":
                 return 4;
 
             default:
@@ -67,14 +68,13 @@ export function CreationHistory() {
     }, [counter]);
 
     const filtersPanel = auth?.is_staff ? (
-        // TODO ON SUBMIT
         <Card className="card card-body">
             <h5>Фильтрация</h5>
             <div className="input-group mb-3">
-                <input type="datetime-local" className="form-control" placeholder="Начальная дата"
+                <input type="date" className="form-control" placeholder="Начальная дата"
                        onChange={(event) => setBeginDate(new Date(event.target.value))}/>
                 <span className="input-group-text">—</span>
-                <input type="datetime-local" className="form-control" placeholder="Конечная дата"
+                <input type="date" className="form-control" placeholder="Конечная дата"
                        onChange={(event) => setEndDate(new Date(event.target.value))}/>
             </div>
 
@@ -92,8 +92,11 @@ export function CreationHistory() {
                         console.log(result)
                         setCreations(result.data.creations)
                     }, []).then(
-                        () => setCreations((prevState) => prevState.filter((creation) => creation.user.includes(username)))
-                    )
+                        () => setCreations((prevState) => {
+                            if (username !== undefined) {
+                                prevState.filter((creation) => creation.user.includes(username))
+                            }
+                        }))
                 }
             }>Применить
             </button>
@@ -112,10 +115,11 @@ export function CreationHistory() {
                     <tr>
                         <th scope="col">#</th>
                         {auth?.is_staff ? <th scope="col">Создатель</th> : null}
+                        <th scope="col">Модератор</th>
                         <th scope="col">Статус</th>
-                        <th scope="col">Создано</th>
-                        <th scope="col">Сформировано</th>
-                        <th scope="col">Завершено</th>
+                        <th scope="col">Создана</th>
+                        <th scope="col">Сформирована</th>
+                        <th scope="col">Завершена</th>
                         <th scope="col">Список компонентов</th>
                     </tr>
                     </thead>
@@ -126,7 +130,7 @@ export function CreationHistory() {
         </>)
     } else {
         return (
-            <div>Не работает( и точка</div>
+            <LoadingIndicator></LoadingIndicator>
         )
     }
 }

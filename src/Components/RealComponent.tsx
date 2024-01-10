@@ -49,8 +49,8 @@ function RealComponent() {
             </CardText>
             {auth?.is_staff ? (
                 <Button onClick={() => navigate("/componentForm/" + component.componentid)}> Редактировать
-                </Button>) : <Button variant="outline-success" onClick={() => {
-                axios.post("api/components/" + component.componentid + "/post_to_creation").then((result) => {
+                </Button>) : <Button variant="outline-success" disabled={auth===null} onClick={() => {
+                axios.post("/api/components/" + component.componentid + "/post_to_creation").then((result) => {
                     console.log(result)
                     // @ts-ignore
                     dispatch(setCurrentRequestId({

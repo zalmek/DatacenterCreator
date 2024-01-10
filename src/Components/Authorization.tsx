@@ -4,15 +4,24 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {useDispatch} from "react-redux";
 import {setAuth, setCurrentRequestId} from "../store/data/slice.ts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const BASE_URL = "api/login"
 
 export function Authorization() {
     const [login, setLogin] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState()
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const authError =
+        error == true ? (
+            <h4 color={"#F44E3B"}>
+                Неправильный логин или пароль
+            </h4>
+        ) : (
+            <></>
+        )
     return (
         <>
             <Form className="d-flex">
@@ -40,24 +49,30 @@ export function Authorization() {
                 password: password,
             }).then(result => {
                 console.log(result)
-                dispatch(setAuth({
-                        email: login,
-                        password: password,
-                        is_staff: result.data.is_staff,
-                    }
-                ))
-                axios.get("api/components/").then((result) => {
-                    console.log(result)
-                        if (result.data.creation !== null) {
-                            // @ts-ignore
-                            dispatch(setCurrentRequestId({
-                                currentRequestId: result.data.creation
-                            }))
+                if (result.data !== "{'status': 'error', 'error': 'login failed'}") {
+                    dispatch(setAuth({
+                            email: login,
+                            password: password,
+                            is_staff: result.data.is_staff,
                         }
-                    }
-                )
-                navigate("/")
+                    ))
+                    navigate("/")
+                    axios.get("api/components/").then((result) => {
+                            console.log(result)
+                            if (result.data.creation !== null) {
+                                // @ts-ignore
+                                dispatch(setCurrentRequestId({
+                                    currentRequestId: result.data.creation
+                                }))
+                            }
+                        }
+                    )
+                }
+                else{
+                    setError(true)
+                }
             })}>Авторизоваться</Button>
+            {authError}
         </>
     );
 }

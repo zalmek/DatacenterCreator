@@ -11,8 +11,17 @@ const BASE_URL = "api/user/"
 export function Registration() {
     const [login, setLogin] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState()
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const authError =
+        error == true ? (
+            <h4 color={"#F44E3B"}>
+                Недопустимый логин или пароль
+            </h4>
+        ) : (
+            <></>
+        )
     return (
         <>
             <Form className="d-flex">
@@ -47,7 +56,10 @@ export function Registration() {
                     }
                 ))
                 navigate("/")
+            }).catch(() => {
+                setError(true)
             })}>Зарегистрироваться</Button>
+            {authError}
         </>
     );
 }
