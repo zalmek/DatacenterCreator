@@ -71,6 +71,8 @@ export function Authorization() {
                 else{
                     setError(true)
                 }
+            }).catch(() => {
+                setError(true)
             })}>Авторизоваться</Button>
             {authError}
         </>
