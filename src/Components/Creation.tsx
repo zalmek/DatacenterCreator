@@ -88,7 +88,7 @@ export function Creation() {
     const buttons =
         auth?.is_staff ? (
             <div>
-                <Button variant={"success"} disabled={creation.creationstatus != 1} onClick={
+                <button className="button-68" disabled={creation.creationstatus != 1} onClick={
                     () => {
                         axios.post("/api/datacentercreations/" + creation.creationid + "/moderator_approvement").then(result => {
                             console.log(result)
@@ -97,8 +97,8 @@ export function Creation() {
                     }
                 }>
                     Завершить
-                </Button>
-                <Button variant={"danger"} disabled={creation.creationstatus != 1} onClick={
+                </button>
+                <button className="button-68" style={{backgroundColor: "red"}} disabled={creation.creationstatus != 1} onClick={
                     () => {
                         axios.post("/api/datacentercreations/" + creation.creationid + "/moderator_rejection").then(result => {
                             console.log(result)
@@ -107,11 +107,11 @@ export function Creation() {
                     }
                 }>
                     Отклонить
-                </Button>
+                </button>
             </div>
         ) : (
             <>
-                <Button disabled={creation.creationstatus != 0} onClick={
+                <button className="button-68" style={{backgroundColor: "blue"}} disabled={creation.creationstatus != 0} onClick={
                     () => {
                         axios.post("/api/datacentercreations/" + creation.creationid + "/user_publish").then(result => {
                             console.log(result)
@@ -120,8 +120,8 @@ export function Creation() {
                     }
                 }>
                     Сформировать
-                </Button>
-                <Button variant={"danger"} disabled={creation.creationstatus != 0} onClick={
+                </button>
+                <button className="button-68" style={{backgroundColor: "red"}} disabled={creation.creationstatus != 0} onClick={
                     () => {
                         axios.post("/api/datacentercreations/" + creation.creationid + "/user_deletion").then(result => {
                             console.log(result)
@@ -130,7 +130,7 @@ export function Creation() {
                     }
                 }>
                     Удалить
-                </Button>
+                </button>
             </>
         )
 
@@ -151,10 +151,10 @@ export function Creation() {
                                 <Card.Text>
                                     Количество: {number_of_components[index]}шт.
                                 </Card.Text>
-                                <Button variant="outline-info"
-                                        onClick={() => navigate(`/components/${component.componentid.toString()}`)}>Подробнее</Button>{' '}
+                                <button className="button-68" style={{backgroundColor: "blue"}}
+                                        onClick={() => navigate(`/components/${component.componentid.toString()}`)}>Подробнее</button>{' '}
                                 <Row>
-                                    <Button variant="success" disabled={creation.creationstatus !== 0 || auth?.is_staff==true}
+                                    <button className="button-68" style={{}} disabled={creation.creationstatus !== 0 || auth?.is_staff==true}
                                             onClick={() => {
                                                 axios.put("/api/creationcomponents/", {
                                                     "componentsnumber": (number_of_components[index] + 1),
@@ -168,8 +168,8 @@ export function Creation() {
                                                     }))
                                                     changeRefresh((prevState) => !prevState)
                                                 })
-                                            }}>Добавить ещё 1</Button>{' '}
-                                    <Button variant="warning" disabled={creation.creationstatus !== 0 || auth?.is_staff==true}
+                                            }}>Добавить ещё 1</button>{' '}
+                                    <button className="button-68" style={{backgroundColor: "red"}} disabled={creation.creationstatus !== 0 || auth?.is_staff==true}
                                             onClick={() => {
                                                 axios.put("/api/creationcomponents/", {
                                                     "componentsnumber": (number_of_components[index] - 1),
@@ -183,7 +183,7 @@ export function Creation() {
                                                     }))
                                                     changeRefresh((prevState) => !prevState)
                                                 })
-                                            }}>Уменьшить на 1</Button>{' '}
+                                            }}>Уменьшить на 1</button>{' '}
                                 </Row>
                             </Card.Body>
                         </Card>

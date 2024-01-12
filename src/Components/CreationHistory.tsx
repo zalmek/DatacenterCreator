@@ -86,7 +86,7 @@ export function CreationHistory() {
                 <input value={status} type="text" className="form-control" placeholder="Статус"
                        onChange={(event) => setStatus(event.target.value)}/>
             </div>
-            <Button className="btn btn-primary" onClick={
+            <button className="button-29" onClick={
                 () => {
                     axios.get("/api/datacentercreations/" + filterString(beginDate, endDate, creationStringToStatus(status))).then((result) => {
                         console.log(result)
@@ -100,7 +100,7 @@ export function CreationHistory() {
                         }))
                 }
             }>Применить
-            </Button>
+            </button>
         </Card>
     ) : (
         <></>

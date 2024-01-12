@@ -44,7 +44,7 @@ export function Authorization() {
                     onChange={(event) => setPassword(event.target.value)}
                 />
             </Form>
-            <Button className={"button-68"} onClick={() => axios.post(BASE_URL, {
+            <button className={"button-68"} onClick={() => axios.post(BASE_URL, {
                 email: login,
                 password: password,
             }).then(result => {
@@ -72,7 +72,7 @@ export function Authorization() {
                 }
             }).catch(() => {
                 setError(true)
-            })}>Авторизоваться</Button>
+            })}>Авторизоваться</button>
             {authError}
         </>
     );

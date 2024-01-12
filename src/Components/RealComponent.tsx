@@ -48,8 +48,8 @@ function RealComponent() {
                 {component.componentprice}р
             </CardText>
             {auth?.is_staff ? (
-                <Button onClick={() => navigate("/componentForm/" + component.componentid)}> Редактировать
-                </Button>) : <Button variant="outline-success" disabled={auth===null} onClick={() => {
+                <button className={"button-29"} onClick={() => navigate("/componentForm/" + component.componentid)}> Редактировать
+                </button>) : <button className={"button-68"} disabled={auth===null} onClick={() => {
                 axios.post("/api/components/" + component.componentid + "/post_to_creation").then((result) => {
                     console.log(result)
                     // @ts-ignore
@@ -57,7 +57,7 @@ function RealComponent() {
                         currentRequestId: result.data.creation
                     }))
                 })
-            }}>Добавить в заявку</Button>
+            }}>Добавить в заявку</button>
             }
         </Col>
     </>;

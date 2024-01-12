@@ -79,23 +79,23 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
             <td className={bgColor}>{creation.creationcompleteddate ? formatDateString(creation.creationcompleteddate) :
                 <span className="text-body-secondary">—</span>}</td>
             <td className={bgColor}>
-                <Button className="btn btn-primary" onClick={() => {
+                <button className="button-68" style={{backgroundColor: "blue",position: 'relative',padding: "0px", width: "100px", height: "39px"}} onClick={() => {
                     navigate("/creationHistory/" + creation.creationid)
                 }}>
                     Открыть
-                </Button>
+                </button>
             </td>
             {auth?.is_staff ?
-                <td className={bgColor}><Button disabled={creation.creationstatus != 1} className="btn btn-success"
+                <td className={bgColor}><button disabled={creation.creationstatus != 1} className="button-68" style={{position: 'relative',padding: "0px", width: "100px", height: "39px"}}
                                                 onClick={() => {
                                                     axios.post("api/datacentercreations/" + creation.creationid + "/moderator_approvement").then(result => {
                                                         console.log(result)
                                                     })
                                                 }}>
                     Завершить
-                </Button></td> : null}
+                </button></td> : null}
             {auth?.is_staff ?
-                <td className={bgColor}><Button disabled={creation.creationstatus != 1} className="btn btn-danger"
+                <td className={bgColor}><Button disabled={creation.creationstatus != 1} className="button-68" style={{backgroundColor: "red",position: 'relative',padding: "0px", width: "100px", height: "39px"}}
                                                 onClick={() => {
                                                     axios.post("api/datacentercreations/" + creation.creationid + "/moderator_rejection").then(result => {
                                                         console.log(result)

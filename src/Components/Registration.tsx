@@ -44,7 +44,7 @@ export function Registration() {
                     onChange={(event) => setPassword(event.target.value)}
                 />
             </Form>
-            <Button variant="outline-success" onClick={() => axios.post(BASE_URL, {
+            <button className={"button-68"} onClick={() => axios.post(BASE_URL, {
                 email: login,
                 password: password,
             }).then(result => {
@@ -57,7 +57,7 @@ export function Registration() {
                 navigate("/")
             }).catch(() => {
                 setError(true)
-            })}>Зарегистрироваться</Button>
+            })}>Зарегистрироваться</button>
             {authError}
         </>
     );

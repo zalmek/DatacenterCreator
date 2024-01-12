@@ -60,9 +60,9 @@ function ComponentsGrid({components, goToInfoPage, Filter, changeFilter, execute
                             <Card.Text>
                                 Цена: {component.componentprice}р
                             </Card.Text>
-                            <Button variant="outline-info"
-                                    onClick={() => goToInfoPage(component.componentid.toString())}>Подробнее</Button>{' '}
-                            <Button variant="success" disabled={auth==null} onClick={() => {
+                            <button className={"button-68"} style={{backgroundColor: "#4670ec"}}
+                                    onClick={() => goToInfoPage(component.componentid.toString())}>Подробнее</button>{' '}
+                            <button className={"button-68"} disabled={auth==null} onClick={() => {
                                 axios.post("api/components/" + component.componentid + "/post_to_creation").then((result) => {
                                     console.log(result)
                                     // @ts-ignore
@@ -78,7 +78,7 @@ function ComponentsGrid({components, goToInfoPage, Filter, changeFilter, execute
                                         }))
                                     }
                                 )
-                            }}>Добавить в заявку</Button>{' '}
+                            }}>Добавить в заявку</button>{' '}
                         </Card.Body>
                     </Card>
                 </Col>)}

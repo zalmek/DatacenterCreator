@@ -37,12 +37,12 @@ function NavBar() {
     const dispatch = useDispatch()
     const requestId = useCurrentRequestId()
     const requestView =
-          !auth?.is_staff ? (
+          !auth?.is_staff && auth!==null ? (
             <div>
-                <Button disabled={requestId===null} onClick={() => {
+                <button className={"button-29"} disabled={requestId===null} onClick={() => {
                     navigate("/creationHistory/" + requestId.currentRequestId)
                 }}>Текущая
-                    заявка</Button>
+                    заявка</button>
             </div>
         ) : (
             <>
@@ -67,17 +67,17 @@ function NavBar() {
     const loginDisplay =
         auth === null ? (
             <div>
-            <Button onClick={goToAuthPage}>
+            <button className={"button-29"} onClick={goToAuthPage}>
                 Войти
-                </Button>{' '}
-                <Button onClick={goToRegistrationPage}>
+                </button>{' '}
+                <button className={"button-29"} onClick={goToRegistrationPage}>
                     Зарегистрироваться
-                </Button>
+                </button>
             </div>
         ) : (
             <div>
                 Логин: <div className="btn btn-primary disabled">{auth.email}</div>
-                <button className="btn btn-info ms-1" style={{position: 'absolute'}} onClick={
+                <button className="button-68" style={{backgroundColor: "red",position: 'relative',padding: "1px", width: "80px", height: "39px"}} onClick={
                     () => {
                         dispatch(reset())
                         axios.post("api/logout").then((result) => {

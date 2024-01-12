@@ -172,9 +172,9 @@ export function ComponentForm() {
                             </>
                         }
                     </Card>
-                    <Button className={"btn-warning"} type="button" onClick={remove}>Очистить поля</Button>
-                    <Button className={"btn-success"} type="submit"> Сохранить
-                    </Button>
+                    <button className="button-68" style={{backgroundColor: "red"}} type="button" onClick={remove}>Очистить поля</button>
+                    <button className="button-68" type="submit"> Сохранить
+                    </button>
                 </form>
                 Доступен для использования
                 <FormCheck checked={numberToStatus(componentstatus)} onClick={(event) => setComponentstatus(statusToNumber(event.target.checked))}></FormCheck>
