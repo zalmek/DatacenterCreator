@@ -1,6 +1,6 @@
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 
+// @ts-ignore
 function SearchForm({filter, executeSearch, changeFilter}) {
     if (filter[0]==undefined){
         filter[0] = ""

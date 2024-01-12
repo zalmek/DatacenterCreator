@@ -21,7 +21,10 @@ export default function Breadcrumbs() {
             else {
                 return (
                     <div className="crumb" key={crumb}>
-                        <Link to={currentLink}>{translation[crumb]}</Link> /
+
+                        <Link to={currentLink}>{
+                            // @ts-ignore
+                            translation[crumb]}</Link> /
                     </div>
                 )
             }

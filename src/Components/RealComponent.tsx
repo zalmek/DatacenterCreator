@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import {CardText, CardTitle, Image} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
-import React, {useEffect, useState} from "react";
+import  {useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 // @ts-ignore
@@ -10,7 +10,6 @@ import img1 from "assets/08ea41bbc0ac10de581b7ea3edf070d5e292f151ee805ef6f2dd5a1
 import img2 from "assets/72daa4a1199c44c41105cadc0fc6ab447b24a918f15c6e32cbf0134027a963e6.jpg";
 // @ts-ignore
 import img3 from "assets/879dd5ff8210e347cffc72bdd14e492278c55e5d0eceac511fac9abbe75ebc78.jpg";
-import SearchNavBar from "./SearchNavBar.tsx";
 import Breadcrumbs from "./Breadcrumbs/Breadcrumbs.tsx";
 // @ts-ignore
 const BASE_URL = "/api/components/"
