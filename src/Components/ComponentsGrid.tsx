@@ -70,7 +70,15 @@ function ComponentsGrid({components, goToInfoPage, Filter, changeFilter, execute
                                         currentRequestId: result.data.creation
                                     }))
                                 })
-                            }}>Добавить в корзину</Button>{' '}
+                                axios.get("api/components/").then(
+                                    (result) => {
+                                        console.log(result)
+                                        dispatch(setCurrentRequestId({
+                                            currentRequestId: result.data.creation
+                                        }))
+                                    }
+                                )
+                            }}>Добавить в заявку</Button>{' '}
                         </Card.Body>
                     </Card>
                 </Col>)}

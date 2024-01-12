@@ -57,7 +57,7 @@ function RealComponent() {
                         currentRequestId: result.data.creation
                     }))
                 })
-            }}>Добавить в корзину</Button>
+            }}>Добавить в заявку</Button>
             }
         </Col>
     </>;

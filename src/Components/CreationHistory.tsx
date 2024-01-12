@@ -1,23 +1,20 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {CreationHistoryRow} from "./CreationHistoryRow.tsx";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
 import {useAuth} from "../store/data/slice.ts";
 import Card from "react-bootstrap/Card";
 import {LoadingIndicator} from "./LoadingIndicator.tsx";
+import Button from "react-bootstrap/Button";
 
 
 export function CreationHistory() {
     const [creations, setCreations] = useState()
     const [refresh, changeRefresh] = useState(false)
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
     const [counter, setCounter] = useState(0)
     const auth = useAuth()
     const [beginDate, setBeginDate] = useState<Date | undefined>(undefined);
     const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-    const [username, setUsername] = useState<string | undefined>(undefined);
+    const [username, setUsername] = useState<string | undefined>("");
     const [status, setStatus] = useState<string | undefined>()
 
     function filterString(beginDate: Date | undefined, endDate: Date | undefined, status: string | number | undefined) {
@@ -55,14 +52,14 @@ export function CreationHistory() {
     }
 
     useEffect(() => {
-        axios.get("api/datacentercreations/").then((result) => {
-            setCreations(result.data.creations)
+        axios.get("api/datacentercreations/"+ filterString(beginDate, endDate, creationStringToStatus(status))).then((result) => {
+            setCreations(result.data.creations.filter((creation) => ((status!==undefined && status!=="") || creation.creationstatus!=0) && creation.creationstatus!=5 && creation.useremail.includes(username)))
         })
     }, [refresh]);
 
     useEffect(() => {
         setCounter((prevState) => prevState + 1)
-        if (counter % 3000 == 0) {
+        if (counter % 5000 == 0) {
             changeRefresh(!refresh)
         }
     }, [counter]);
@@ -71,35 +68,39 @@ export function CreationHistory() {
         <Card className="card card-body">
             <h5>Фильтрация</h5>
             <div className="input-group mb-3">
-                <input type="date" className="form-control" placeholder="Начальная дата"
-                       onChange={(event) => setBeginDate(new Date(event.target.value))}/>
+                <input value={beginDate?.toISOString().substring(0,10)} type="date" className="form-control" placeholder="Начальная дата"
+                       onChange={(event) => {
+                           setBeginDate(new Date(event.target.value))
+                       }
+                }/>
                 <span className="input-group-text">—</span>
-                <input type="date" className="form-control" placeholder="Конечная дата"
+                <input value={endDate?.toISOString().substring(0,10)} type="date" className="form-control" placeholder="Конечная дата"
                        onChange={(event) => setEndDate(new Date(event.target.value))}/>
             </div>
 
             <div className="mb-3">
-                <input type="text" className="form-control" placeholder="Имя пользователя"
+                <input value={username} type="text" className="form-control" placeholder="Имя пользователя"
                        onChange={(event) => setUsername(event.target.value)}/>
             </div>
             <div className="mb-3">
-                <input type="text" className="form-control" placeholder="Статус"
+                <input value={status} type="text" className="form-control" placeholder="Статус"
                        onChange={(event) => setStatus(event.target.value)}/>
             </div>
-            <button className="btn btn-primary" onClick={
+            <Button className="btn btn-primary" onClick={
                 () => {
                     axios.get("/api/datacentercreations/" + filterString(beginDate, endDate, creationStringToStatus(status))).then((result) => {
                         console.log(result)
                         setCreations(result.data.creations)
-                    }, []).then(
-                        () => setCreations((prevState) => {
-                            if (username !== undefined) {
-                                prevState.filter((creation) => creation.user.includes(username))
+                    }).then(
+                        () => setCreations(() => {
+                            if (creations !== undefined) {
+                                console.log(creations)
+                                creations.filter((creation) => creation.useremail.includes(username))
                             }
                         }))
                 }
             }>Применить
-            </button>
+            </Button>
         </Card>
     ) : (
         <></>

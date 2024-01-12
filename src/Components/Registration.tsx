@@ -51,7 +51,6 @@ export function Registration() {
                 console.log(result)
                 dispatch(setAuth({
                         email: login,
-                        password: password,
                         is_staff: result.data.is_staff,
                     }
                 ))

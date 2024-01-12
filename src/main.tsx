@@ -40,7 +40,7 @@ const router = createBrowserRouter([
             </>
     },
     {
-        path: '/creation/:creationid',
+        path: '/creationHistory/:creationid',
         element:
             <>
                 <NavBar></NavBar>
@@ -55,6 +55,15 @@ const router = createBrowserRouter([
                 <NavBar></NavBar>
                 <Breadcrumbs></Breadcrumbs>
                 <CreationHistory/>
+            </>
+    },
+    {
+        path: '/creationHistory/:creationid',
+        element:
+            <>
+                <NavBar></NavBar>
+                <Breadcrumbs></Breadcrumbs>
+                <Creation/>
             </>
     },
     {

@@ -80,7 +80,7 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
                 <span className="text-body-secondary">—</span>}</td>
             <td className={bgColor}>
                 <Button className="btn btn-primary" onClick={() => {
-                    navigate("/creation/" + creation.creationid)
+                    navigate("/creationHistory/" + creation.creationid)
                 }}>
                     Открыть
                 </Button>

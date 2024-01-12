@@ -44,7 +44,7 @@ export function Authorization() {
                     onChange={(event) => setPassword(event.target.value)}
                 />
             </Form>
-            <Button variant="outline-success" onClick={() => axios.post(BASE_URL, {
+            <Button className={"button-68"} onClick={() => axios.post(BASE_URL, {
                 email: login,
                 password: password,
             }).then(result => {
@@ -52,7 +52,6 @@ export function Authorization() {
                 if (result.data !== "{'status': 'error', 'error': 'login failed'}") {
                     dispatch(setAuth({
                             email: login,
-                            password: password,
                             is_staff: result.data.is_staff,
                         }
                     ))

@@ -37,28 +37,32 @@ function NavBar() {
     const dispatch = useDispatch()
     const requestId = useCurrentRequestId()
     const requestView =
-        requestId === null || auth?.is_staff ? (
-            <></>
-        ) : (
+          !auth?.is_staff ? (
             <div>
-                <Link className="nav-link text-dark" to={"/creation"}>Текущая заявка</Link>
+                <Button disabled={requestId===null} onClick={() => {
+                    navigate("/creationHistory/" + requestId.currentRequestId)
+                }}>Текущая
+                    заявка</Button>
             </div>
-)
+        ) : (
+            <>
+            </>
+        )
     const displayForm =
         auth?.is_staff ? (
             <div>
-            <Link className="nav-link text-dark" to={"/componentForm"}>Новый компонент</Link>
+                <Link className="nav-link text-dark" to={"/componentForm"}>Новый компонент</Link>
             </div>
         ) : (
             <></>
         )
     const requestHistory =
-        requestId === null && !auth?.is_staff ? (
-            <></>
-        ) : (
+        auth !== null ? (
             <div>
                 <Link className="nav-link text-dark" to={"/creationHistory"}>Все заявки</Link>
             </div>
+        ) : (
+            <></>
         )
     const loginDisplay =
         auth === null ? (
@@ -89,9 +93,9 @@ function NavBar() {
     return (
         <Navbar className="bg-body-tertiary justify-content-between" style={{width: 1000}}>
             <Link className="nav-link text-dark" to={"/"}>Компоненты</Link>
-            {requestView}
             {displayForm}
             {requestHistory}
+            {requestView}
             {loginDisplay}
         </Navbar>
     );

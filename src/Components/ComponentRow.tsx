@@ -50,7 +50,7 @@ export function ComponentRow({component}: ComponentRowProps) {
             <td className={""} width={4000} style={{textOverflow: "clip"}}>{component.componentdescription}</td>
             <td className={""}>{numberToStatus(component.componentstatus)}</td>
             <td className={""}>
-                <Button className="btn btn-primary" onClick={() => {navigate("/components/"+component.componentid)}}>
+                <Button className="button-29" onClick={() => {navigate("/components/"+component.componentid)}}>
                     Открыть
                 </Button>
             </td>

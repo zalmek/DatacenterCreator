@@ -3,7 +3,6 @@ import axios from "axios";
 import ComponentsGrid from "./Components/ComponentsGrid.tsx";
 import {SetStateAction, useEffect, useState} from "react";
 import {useNavigate, useParams} from 'react-router-dom';
-import Breadcrumbs from "./Components/Breadcrumbs/Breadcrumbs.tsx";
 
 
 export const BASE_URL = "api/components/"
@@ -69,7 +68,6 @@ function App() {
       <>
           <ComponentsGrid components={Components} goToInfoPage={goToInfoPage} path={path} Filter={[Filter, setFilter]} changeFilter={changeFilter}
                           executeSearch={executeSearch}/>
-          <Breadcrumbs></Breadcrumbs>
       </>
   )
 }
