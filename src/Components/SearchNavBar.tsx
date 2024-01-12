@@ -15,7 +15,7 @@ function SearchForm({filter, executeSearch, changeFilter}) {
                 aria-label="Поиск"
                 onChange={changeFilter}
             />
-            <Button variant="outline-success" onClick={() => executeSearch(filter[0])}>Поиск</Button>
+            <button className={"button-68"} onClick={() => executeSearch(filter[0])}>Поиск</button>
         </Form>
     )
 }

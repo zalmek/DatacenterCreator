@@ -51,9 +51,9 @@ function ComponentsGrid({ components, goToInfoPage, Filter, changeFilter, execut
                             <Card.Text>
                                 Цена: {component.componentprice}р
                             </Card.Text>
-                            <Button variant="outline-info"
-                                    onClick={() => goToInfoPage(component.componentid.toString())}>Подробнее</Button>{' '}
-                            <Button variant="outline-success">Добавить в корзину</Button>{' '}
+                            <button className={"button-68"} style={{backgroundColor: "blue"}}
+                                    onClick={() => goToInfoPage(component.componentid.toString())}>Подробнее</button>{' '}
+                            <button className={"button-68"}>Добавить в корзину</button>{' '}
                         </Card.Body>
                     </Card>
                 </Col>
