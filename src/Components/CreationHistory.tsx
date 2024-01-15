@@ -4,8 +4,7 @@ import {CreationHistoryRow} from "./CreationHistoryRow.tsx";
 import {useAuth} from "../store/data/slice.ts";
 import Card from "react-bootstrap/Card";
 import {LoadingIndicator} from "./LoadingIndicator.tsx";
-import Button from "react-bootstrap/Button";
-
+import Form from 'react-bootstrap/Form';
 
 export function CreationHistory() {
     const [creations, setCreations] = useState()
@@ -53,7 +52,7 @@ export function CreationHistory() {
 
     useEffect(() => {
         axios.get("api/datacentercreations/"+ filterString(beginDate, endDate, creationStringToStatus(status))).then((result) => {
-            setCreations(result.data.creations.filter((creation) => ((status!==undefined && status!=="") || creation.creationstatus!=0) && creation.creationstatus!=5 && creation.useremail.includes(username)))
+            setCreations(result.data.creations.filter((creation) => ((status!==undefined && status!=="") && creation.creationstatus!=0 && creation.creationstatus!=5) && creation.useremail.includes(username)))
         })
     }, [refresh]);
 
@@ -83,8 +82,14 @@ export function CreationHistory() {
                        onChange={(event) => setUsername(event.target.value)}/>
             </div>
             <div className="mb-3">
-                <input value={status} type="text" className="form-control" placeholder="Статус"
-                       onChange={(event) => setStatus(event.target.value)}/>
+                <Form.Select value={status} onChange={(event) => setStatus(event.target.value)}  aria-label="Default select example">
+                    <option value="Не выбрано" onSelect={() => setStatus("")}>Не выбрано</option>
+                    <option value="Сформирована" onSelect={() => setStatus("Сформирована")}>Сформирована</option>
+                    <option value="Завершена" onSelect={() => setStatus("Завершена")}>Завершена</option>
+                    <option value="Отклонена" onSelect={() => setStatus("Отклонена")}>Отклонена</option>
+                </Form.Select>
+                {/*<input value={status} type="text" className="form-control" placeholder="Статус"*/}
+                {/*       onChange={(event) => setStatus(event.target.value)}/>*/}
             </div>
             <button className="button-29" onClick={
                 () => {

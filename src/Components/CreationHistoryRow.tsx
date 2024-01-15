@@ -88,7 +88,7 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
             {auth?.is_staff ?
                 <td className={bgColor}><button disabled={creation.creationstatus != 1} className="button-68" style={{position: 'relative',padding: "0px", width: "100px", height: "39px"}}
                                                 onClick={() => {
-                                                    axios.post("api/datacentercreations/" + creation.creationid + "/moderator_approvement").then(result => {
+                                                    axios.post("api/datacentercreations/" + creation.creationid + "/moderator", {"status": 2}).then(result => {
                                                         console.log(result)
                                                     })
                                                 }}>
@@ -97,7 +97,7 @@ export function CreationHistoryRow({creation}: CreationHistoryRowProps) {
             {auth?.is_staff ?
                 <td className={bgColor}><Button disabled={creation.creationstatus != 1} className="button-68" style={{backgroundColor: "red",position: 'relative',padding: "0px", width: "100px", height: "39px"}}
                                                 onClick={() => {
-                                                    axios.post("api/datacentercreations/" + creation.creationid + "/moderator_rejection").then(result => {
+                                                    axios.post("api/datacentercreations/" + creation.creationid + "/moderator", {"status": 3}).then(result => {
                                                         console.log(result)
                                                     })
                                                 }}>

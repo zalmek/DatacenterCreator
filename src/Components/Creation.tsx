@@ -1,14 +1,11 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useDispatch} from "react-redux";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import {setCurrentRequestId, useAuth} from "../store/data/slice.ts";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 import {LoadingIndicator} from "./LoadingIndicator.tsx";
 
 export function Creation() {
@@ -65,6 +62,83 @@ export function Creation() {
         navigate("/creation/" + creation.creationid)
     }
 
+    const userChangeButtons =
+        creation.creationstatus !== 0 || auth?.is_staff == true ? (
+            <></>
+        ): (
+            <>
+                <button className="button-68" style={{}}
+                        disabled={creation.creationstatus !== 0 || auth?.is_staff == true}
+                        onClick={() => {
+                            axios.put("/api/creationcomponents/", {
+                                "componentsnumber": (number_of_components[index] + 1),
+                                "component_id": component.componentid,
+                                "creation_id": creation.creationid
+                            }).then((result) => {
+                                console.log(result)
+                                // @ts-ignore
+                                dispatch(setCurrentRequestId({
+                                    currentRequestId: result.data.creation
+                                }))
+                                changeRefresh((prevState) => !prevState)
+                            })
+                        }}>Добавить ещё 1
+                </button>
+                {' '}
+                <button className="button-68" style={{backgroundColor: "red"}}
+                        disabled={creation.creationstatus !== 0 || auth?.is_staff == true}
+                        onClick={() => {
+                            axios.put("/api/creationcomponents/", {
+                                "componentsnumber": (number_of_components[index] - 1),
+                                "component_id": component.componentid,
+                                "creation_id": creation.creationid
+                            }).then((result) => {
+                                console.log(result)
+                                // @ts-ignore
+                                dispatch(setCurrentRequestId({
+                                    currentRequestId: result.data.creation
+                                }))
+                                changeRefresh((prevState) => !prevState)
+                            })
+                        }}>Уменьшить на 1
+                </button>
+                {' '}
+            </>
+        )
+
+    const userStatusButtons =
+        creation.creationstatus == 0 ? (
+            <>
+                <button className="button-68" style={{backgroundColor: "blue"}} disabled={creation.creationstatus != 0}
+                        onClick={
+                            () => {
+                                axios.post("/api/datacentercreations/" + creation.creationid + "/user", {"status": 1}).then(result => {
+                                    console.log(result)
+                                })
+                                changeRefresh((prevState) => !prevState)
+                                navigate("/creationHistory/" + creation.creationid)
+                            }
+                        }>
+                    Сформировать
+                </button>
+                <button className="button-68" style={{backgroundColor: "red"}} disabled={creation.creationstatus != 0}
+                        onClick={
+                            () => {
+                                axios.post("/api/datacentercreations/" + creation.creationid + "/user", {"status": 5}).then(result => {
+                                    console.log(result)
+                                })
+                                changeRefresh((prevState) => !prevState)
+                                navigate("/creationHistory/" + creation.creationid)
+                            }
+                        }>
+                    Удалить
+                </button>
+            </>
+        ) : (
+            <></>
+        )
+
+
     const status = () => {
         if (creation.creationstatus == 0) {
             return (<h4>Статус: Черновик</h4>)
@@ -90,7 +164,7 @@ export function Creation() {
             <div>
                 <button className="button-68" disabled={creation.creationstatus != 1} onClick={
                     () => {
-                        axios.post("/api/datacentercreations/" + creation.creationid + "/moderator_approvement").then(result => {
+                        axios.post("/api/datacentercreations/" + creation.creationid + "/moderator", {"status": 2}).then(result => {
                             console.log(result)
                         })
                         changeRefresh((prevState) => !prevState)
@@ -98,39 +172,21 @@ export function Creation() {
                 }>
                     Завершить
                 </button>
-                <button className="button-68" style={{backgroundColor: "red"}} disabled={creation.creationstatus != 1} onClick={
-                    () => {
-                        axios.post("/api/datacentercreations/" + creation.creationid + "/moderator_rejection").then(result => {
-                            console.log(result)
-                        })
-                        changeRefresh((prevState) => !prevState)
-                    }
-                }>
+                <button className="button-68" style={{backgroundColor: "red"}} disabled={creation.creationstatus != 1}
+                        onClick={
+                            () => {
+                                axios.post("/api/datacentercreations/" + creation.creationid + "/moderator", {"status": 3}).then(result => {
+                                    console.log(result)
+                                })
+                                changeRefresh((prevState) => !prevState)
+                            }
+                        }>
                     Отклонить
                 </button>
             </div>
         ) : (
             <>
-                <button className="button-68" style={{backgroundColor: "blue"}} disabled={creation.creationstatus != 0} onClick={
-                    () => {
-                        axios.post("/api/datacentercreations/" + creation.creationid + "/user_publish").then(result => {
-                            console.log(result)
-                        })
-                        changeRefresh((prevState) => !prevState)
-                    }
-                }>
-                    Сформировать
-                </button>
-                <button className="button-68" style={{backgroundColor: "red"}} disabled={creation.creationstatus != 0} onClick={
-                    () => {
-                        axios.post("/api/datacentercreations/" + creation.creationid + "/user_deletion").then(result => {
-                            console.log(result)
-                        })
-                        changeRefresh((prevState) => !prevState)
-                    }
-                }>
-                    Удалить
-                </button>
+            {userStatusButtons}
             </>
         )
 
@@ -152,38 +208,11 @@ export function Creation() {
                                     Количество: {number_of_components[index]}шт.
                                 </Card.Text>
                                 <button className="button-68" style={{backgroundColor: "blue"}}
-                                        onClick={() => navigate(`/components/${component.componentid.toString()}`)}>Подробнее</button>{' '}
+                                        onClick={() => navigate(`/components/${component.componentid.toString()}`)}>Подробнее
+                                </button>
+                                {' '}
                                 <Row>
-                                    <button className="button-68" style={{}} disabled={creation.creationstatus !== 0 || auth?.is_staff==true}
-                                            onClick={() => {
-                                                axios.put("/api/creationcomponents/", {
-                                                    "componentsnumber": (number_of_components[index] + 1),
-                                                    "component_id": component.componentid,
-                                                    "creation_id": creation.creationid
-                                                }).then((result) => {
-                                                    console.log(result)
-                                                    // @ts-ignore
-                                                    dispatch(setCurrentRequestId({
-                                                        currentRequestId: result.data.creation
-                                                    }))
-                                                    changeRefresh((prevState) => !prevState)
-                                                })
-                                            }}>Добавить ещё 1</button>{' '}
-                                    <button className="button-68" style={{backgroundColor: "red"}} disabled={creation.creationstatus !== 0 || auth?.is_staff==true}
-                                            onClick={() => {
-                                                axios.put("/api/creationcomponents/", {
-                                                    "componentsnumber": (number_of_components[index] - 1),
-                                                    "component_id": component.componentid,
-                                                    "creation_id": creation.creationid
-                                                }).then((result) => {
-                                                    console.log(result)
-                                                    // @ts-ignore
-                                                    dispatch(setCurrentRequestId({
-                                                        currentRequestId: result.data.creation
-                                                    }))
-                                                    changeRefresh((prevState) => !prevState)
-                                                })
-                                            }}>Уменьшить на 1</button>{' '}
+                                    {userChangeButtons}
                                 </Row>
                             </Card.Body>
                         </Card>
