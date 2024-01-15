@@ -82,6 +82,24 @@
         animation: logo-spin infinite 20s linear;
     }
 }
+.font3 {
+    font-size: 2ch;
+}
+.bold{
+    font-weight: bold;
+}
+.font4 {
+    font-size: 3ch;
+}
+
+@media (max-width: 480px) {
+    .font3 {
+        font-size: 3ch;
+    }
+    .font4 {
+        font-size: 4ch;
+    }
+}
 
 .card {
     padding: 2em;

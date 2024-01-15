@@ -37,10 +37,9 @@ function ComponentsGrid({ components, goToInfoPage, Filter, changeFilter, execut
     components = components.filter((component) => component.componentname.includes(filter))
     console.log(components)
     return (
-        <>
-            <SearchForm filter={[Filter[0], Filter[1]]} changeFilter={changeFilter}
+        <><SearchForm filter={[Filter[0], Filter[1]]} changeFilter={changeFilter}
                         executeSearch={executeSearch}/>
-        <Row xs={1} md={1} lg={2} xl={3} xxl={3}  className="g-4">
+        <Row xs={1} md={2} lg={2} xl={3} xxl={3}  className="g-4 flex-row">
             {components.map((component) =>(
                 <Col key={component.componentid}>
                     <Card>
