@@ -10,7 +10,7 @@ export default defineConfig({
       '/api': 'http://localhost:8000/',
     },
   },
-  // base: "/DatacenterCreator",
+  base: "/DatacenterCreator",
   plugins: [react()],
   build: {
     outDir : "build"

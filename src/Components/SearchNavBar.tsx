@@ -1,4 +1,5 @@
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 // @ts-ignore
 function SearchForm({filter, executeSearch, changeFilter}) {
@@ -15,7 +16,9 @@ function SearchForm({filter, executeSearch, changeFilter}) {
                 aria-label="Поиск"
                 onChange={changeFilter}
             />
-            <button className={"button-68"} onClick={() => executeSearch(filter[0])}>Поиск</button>
+            <Button className={"button-29"} onClick={() => {
+                executeSearch(filter[0])
+            }}>Поиск</Button>
         </Form>
     )
 }

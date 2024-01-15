@@ -24,11 +24,18 @@ const router = createBrowserRouter([
             </>
     },
     {
-        path: 'DatacenterCreator',
+        path: '/DatacenterCreator',
         element: <RedirectComponent></RedirectComponent>
     },
     {
-        path: 'components',
+        path: '/DatacenterCreator',
+        element: <>
+            <NavBar></NavBar>
+            <App/>
+        </>
+    },
+    {
+        path: '/components',
         element: <RedirectComponent></RedirectComponent>
     },
     {
@@ -47,7 +54,7 @@ const router = createBrowserRouter([
                 <NavBar></NavBar>
                 <App/>
             </>
-    }
+    },
 ])
 
 

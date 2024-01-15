@@ -22,7 +22,6 @@ interface ComponentsGridProps {
         componentstatus: number
     })[],
     goToInfoPage: (componentId: string) => void,
-    path: string[],
     Filter: any[],
     changeFilter: (event: { target: { value: React.SetStateAction<string> } }) => void,
     executeSearch: (filter: string) => void
@@ -31,8 +30,9 @@ interface ComponentsGridProps {
 function ComponentsGrid({ components, goToInfoPage, Filter, changeFilter, executeSearch }: ComponentsGridProps) {
     const params = useParams()
     let filter = ""
-    if (params.filterText!=undefined){
+    if (params.filterText!==undefined){
         filter=params.filterText
+        console.log(filter)
     }
     components = components.filter((component) => component.componentname.includes(filter))
     console.log(components)
@@ -52,7 +52,6 @@ function ComponentsGrid({ components, goToInfoPage, Filter, changeFilter, execut
                             </Card.Text>
                             <button className={"button-68"} style={{backgroundColor: "blue"}}
                                     onClick={() => goToInfoPage(component.componentid.toString())}>Подробнее</button>{' '}
-                            <button className={"button-68"}>Добавить в корзину</button>{' '}
                         </Card.Body>
                     </Card>
                 </Col>
