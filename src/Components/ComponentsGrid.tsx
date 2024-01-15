@@ -2,11 +2,11 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 // @ts-ignore
-import img1 from "./08ea41bbc0ac10de581b7ea3edf070d5e292f151ee805ef6f2dd5a12addbaa43.jpg";
+import img1 from "/DatacenterCreator/08ea41bbc0ac10de581b7ea3edf070d5e292f151ee805ef6f2dd5a12addbaa43.jpg";
 // @ts-ignore
-import img2 from "./72daa4a1199c44c41105cadc0fc6ab447b24a918f15c6e32cbf0134027a963e6.jpg";
+import img2 from "/DatacenterCreator/72daa4a1199c44c41105cadc0fc6ab447b24a918f15c6e32cbf0134027a963e6.jpg";
 // @ts-ignore
-import img3 from "./879dd5ff8210e347cffc72bdd14e492278c55e5d0eceac511fac9abbe75ebc78.jpg";
+import img3 from "/DatacenterCreator/879dd5ff8210e347cffc72bdd14e492278c55e5d0eceac511fac9abbe75ebc78.jpg";
 // @ts-ignore
 import * as url from "url";
 import {useParams} from "react-router-dom";
